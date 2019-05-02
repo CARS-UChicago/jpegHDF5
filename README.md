@@ -1,6 +1,5 @@
 # jpegHDF5
 
-
 ## HDF5 compression filter for JPEG compression.  
   * This is a lossy compression filter.  
   * It provides a user-specified "quality factor" to control the trade-off of size versus accuracy.
@@ -25,5 +24,3 @@
     * 2-D monochromatic [NumColumns, NumRows] 
     * 3-D RGB [3, NumColumns, NumRows]
   * Chunking must be set to the size of one entire image so the filter is called once for each image.
- 
-
