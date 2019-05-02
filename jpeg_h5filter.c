@@ -15,7 +15,7 @@
 
 
 #define PUSH_ERR(func, minor, str)                                      \
-    H5Epush1(__FILE__, func, __LINE__, H5E_PLINE, minor, str)
+    H5Epush(H5E_DEFAULT, __FILE__, func, __LINE__, H5E_ERR_CLS, H5E_PLINE, minor, str)
 
 
 size_t jpeg_h5_filter(unsigned int flags, size_t cd_nelmts,
@@ -43,9 +43,6 @@ size_t jpeg_h5_filter(unsigned int flags, size_t cd_nelmts,
         jpeg_read_header(&jpegInfo, TRUE);
         jpeg_start_decompress(&jpegInfo);
         buf_size_out = elem_size * jpegInfo.output_height * jpegInfo.output_width * jpegInfo.output_components;
-        /* WARNING: Other filters use H5allocate_memory here, but when we do it crashes when decompresion program exits.
-         * so we use malloc() instead.  Why? */
-        /* out_buf = H5allocate_memory(buf_size_out, false);*/  
         out_buf = malloc(buf_size_out);
         if (out_buf == NULL) {
             PUSH_ERR("jpeg_h5_filter", H5E_CALLBACK, 
@@ -154,7 +151,7 @@ size_t jpeg_h5_filter(unsigned int flags, size_t cd_nelmts,
         jpeg_finish_compress(&jpegInfo);
         buf_size_out = outSize;
     
-        out_buf = H5allocate_memory(buf_size_out, false);
+        out_buf = malloc(buf_size_out);
         if (!out_buf) {
             PUSH_ERR("jpeg_h5_filter", H5E_CALLBACK, 
                 "Failed to allocate JPEG array");
