@@ -39,7 +39,7 @@ you just need to compile the JPEG plugin into a shared library and
 copy it to the plugin directory (which defaults to ``/usr/local/hdf5/lib/plugin`` on non-Windows systems).
 You can also install in any other location and define the environment variable ``HDF5_PLUGIN_PATH`` to point to that directory.
 
-Following the ``cmake`` instructions below produces a ``libjpeg_h5plugin.so`` shared library 
+Following the ``Compiling`` instructions below produces a ``libjpeg_h5plugin.so`` shared library 
 file (or ``.dylib``/``.dll`` on Mac/Windows), that you can copy to the HDF5 plugin directory.
 
 To *write* JPEG-compressed HDF5 files, on the other hand, an HDF5 using program must be
