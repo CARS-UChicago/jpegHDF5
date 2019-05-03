@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8.10)
 project(jpeg_hdf5)
 include(ExternalProject)
 
+# Want to see more output from make
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
 # options
 option(BUILD_TESTS
     "Build test programs form the blosc filter" ON)
