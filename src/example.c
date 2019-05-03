@@ -16,9 +16,8 @@
 #define SIZE NX * NY * NUM_IMAGES
 #define SHAPE {NUM_IMAGES, NY, NX}
 #define CHUNKSHAPE {1, NY, NX}
-#define JPEG_QUALITY 95
 
-int main(){
+int main(int argc, const char *argv[]){
 
     static unsigned char data[SIZE];
     static unsigned char data_out[SIZE];
@@ -28,8 +27,15 @@ int main(){
     int r, i;
     unsigned int cd_values[4];
     int return_code = 1;
-
+    int num_diff = 0;
+    int jpeg_quality = 100;
     hid_t fid, sid, dset, plist = 0;
+    
+    if (argc > 1) {
+        jpeg_quality = atoi(argv[1]);
+    }
+    if (jpeg_quality < 1) jpeg_quality = 1;
+    if (jpeg_quality > 100) jpeg_quality = 100;
 
     for(i=0; i<SIZE; i++){
         data[i] = i;
@@ -43,6 +49,7 @@ int main(){
     sid = H5Screate_simple(3, shape, NULL);
     if(sid<0) goto failed;
 
+printf("Creating file\n");
     fid = H5Fcreate("example.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
     if(fid<0) goto failed;
 
@@ -54,7 +61,7 @@ int main(){
     if(r<0) goto failed;
 
     /* JPEG filter requires 4 parameters */
-    cd_values[0] = JPEG_QUALITY;  /* JPEG quality factor (1-100) */
+    cd_values[0] = jpeg_quality;  /* JPEG quality factor (1-100) */
     cd_values[1] = NX; /* Number of columns */
     cd_values[2] = NY; /* Number of rows */
     cd_values[3] = 0;  /* Color mode (0=Mono, 1=RGB) */
@@ -73,15 +80,27 @@ int main(){
 
     r = H5Dwrite(dset, H5T_NATIVE_UINT8, H5S_ALL, H5S_ALL, H5P_DEFAULT, &data);
     if(r<0) goto failed;
+    H5Dclose(dset); dset=0;
+    H5Sclose(sid); sid=0;
+    H5Pclose(plist); plist=0;
+    H5Fclose(fid); fid=0;
+
+    fid = H5Fopen("example.h5", H5F_ACC_RDONLY, H5P_DEFAULT);
+    if(fid<0) goto failed;
+
+    dset = H5Dopen2(fid, "dset", H5P_DEFAULT);
+    if(dset<0) goto failed;
 
     r = H5Dread(dset, H5T_NATIVE_UINT8, H5S_ALL, H5S_ALL, H5P_DEFAULT, &data_out);
     if(r<0) goto failed;
-
+printf("Dataset read OK\n");
     for(i=0;i<SIZE;i++){
-        if(data[i] != data_out[i]) goto failed;
+        if(data[i] != data_out[i]) {
+            num_diff++;
+        }
     }
 
-    fprintf(stdout, "Success!\n");
+    fprintf(stdout, "Success, JPEG quality=%d number of differing array elements=%d\n", jpeg_quality, num_diff);
 
     return_code = 0;
 
