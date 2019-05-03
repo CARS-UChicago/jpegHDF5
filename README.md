@@ -12,14 +12,6 @@ Requirements
 ============
 * libjpeg   This library is available as a package for most Linux distributions, and source code is available from https://www.ijg.org/.
 
-Filter parameters
-=================
-* When compressing H5Pset_filter must be called with cd_nelmts=4 and cd_values as follows:
-  * cd_values[0] = quality factor (1-100)
-  * cd_values[1] = numColumns
-  * cd_values[2] = numRows
-  * cd_values[3] = 0=Mono, 1=RGB
- 
 Restrictions
 ============
   * Only 8-bit unsigned data arrays are supported.
@@ -89,6 +81,12 @@ only supports compression for "chunked" datasets; this just means that you need 
 call [H5Pset_chunk](https://www.hdfgroup.org/HDF5/doc/RM/RM_H5P.html#Property-SetChunk) to
 specify a chunk size.  The chunking must be set to the size of a single image for the JPEG filter to
 work properly.
+
+When calling ``H5Pset_filter`` for compression it must be called with cd_nelmts=4 and cd_values as follows:
+  * cd_values[0] = quality factor (1-100)
+  * cd_values[1] = numColumns
+  * cd_values[2] = numRows
+  * cd_values[3] = 0=Mono, 1=RGB
 
 Compiling
 =========
