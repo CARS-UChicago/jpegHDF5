@@ -10,10 +10,10 @@
 #include "hdf5.h"
 #include "jpeg_h5filter.h"
 
-#define NX 100
-#define NY 100
-#define NUM_IMAGES 100
-#define SIZE NX * NY * NUM_IMAGES
+#define NX 1024
+#define NY 512
+#define NUM_IMAGES 10
+#define SIZE (NX * NY * NUM_IMAGES)
 #define SHAPE {NUM_IMAGES, NY, NX}
 #define CHUNKSHAPE {1, NY, NX}
 
@@ -49,7 +49,6 @@ int main(int argc, const char *argv[]){
     sid = H5Screate_simple(3, shape, NULL);
     if(sid<0) goto failed;
 
-printf("Creating file\n");
     fid = H5Fcreate("example.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
     if(fid<0) goto failed;
 
@@ -93,14 +92,14 @@ printf("Creating file\n");
 
     r = H5Dread(dset, H5T_NATIVE_UINT8, H5S_ALL, H5S_ALL, H5P_DEFAULT, &data_out);
     if(r<0) goto failed;
-printf("Dataset read OK\n");
     for(i=0;i<SIZE;i++){
         if(data[i] != data_out[i]) {
             num_diff++;
         }
     }
 
-    fprintf(stdout, "Success, JPEG quality=%d number of differing array elements=%d\n", jpeg_quality, num_diff);
+    fprintf(stdout, "Success, JPEG quality=%d, percent of differing array elements=%f\n", 
+            jpeg_quality, 100. * (double)num_diff/SIZE);
 
     return_code = 0;
 
