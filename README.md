@@ -37,7 +37,7 @@ it as a system-wide HDF5 plugin (with HDF5 1.8.11 or later).  This is useful bec
 As described in the [HDF5 plugin documentation](https://portal.hdfgroup.org/display/HDF5/HDF5+Dynamically+Loaded+Filters), 
 you just need to compile the JPEG plugin into a shared library and
 copy it to the plugin directory (which defaults to ``/usr/local/hdf5/lib/plugin`` on non-Windows systems).
-You can also install in any other location and define the environment variable HDF5_PLUGIN_PATH to point to that directory.
+You can also install in any other location and define the environment variable ``HDF5_PLUGIN_PATH`` to point to that directory.
 
 Following the ``cmake`` instructions below produces a ``libjpeg_h5plugin.so`` shared library 
 file (or ``.dylib``/``.dll`` on Mac/Windows), that you can copy to the HDF5 plugin directory.
@@ -67,7 +67,7 @@ A non-negative return value indicates success.  If the registration
 fails, an error is pushed onto the current error stack and a negative
 value is returned.
 
-An example C program ('src/example.c') is included which demonstrates
+An example C program (``src/example.c``) is included which demonstrates
 the proper use of the filter.  It takes a single optional argument, which
 is the JPEG quality factor.  If it is omitted, 100 is used.
 
@@ -92,8 +92,8 @@ work properly.
 
 Compiling
 =========
-The filter consists of a single 'src/jpeg_h5filter.c' source file and
-'src/jpeg_h5filter.h' header, which will need the JPEG library
+The filter consists of a single ``src/jpeg_h5filter.c`` source file and
+``src/jpeg_h5filter.h`` header, which will need the JPEG library
 installed to work. The JPEG library needs to be installed on your system.
 
 Assuming you have [cmake](http://www.cmake.org/) and other standard
@@ -104,11 +104,13 @@ Unix build tools installed, do
     cmake ..
     make
 ```
-There is also a `build_linux` script in the top-level directory.  It does the above
-steps (except mkdir build) and passes flags to cmake to define the locations of the hdf5
-and jpeg libraries on your system.  You will  
+There is also an example `build_linux` script in the top-level directory.  It does the above
+steps (except ``mkdir build``) and passes flags to cmake to define the locations of the hdf5
+and jpeg libraries on your system.  In the example script ``libjpeg.so`` and ``libhdf5.so`` from
+the anaconda3 distribution are used, because the system versions in /usr/lib64 were not
+current enough.  You will need to edit this file for your site if you chose to use it.
 
-This generates the library/plugin files required above in the ``build``
+This generates the library and plugin files required above in the ``build``
 directory.
 
 Acknowledgments
