@@ -34,3 +34,8 @@
 # Anything in the 'build' folder.
 build/
 
+# HDF5 output files
+*.h5
+
+# Script for copying from ADSupport
+src/copy_from_ADSupport
