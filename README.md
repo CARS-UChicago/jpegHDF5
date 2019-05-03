@@ -34,7 +34,7 @@ Instead of just linking this JPEG filter into your HDF5 application, it is possi
 it as a system-wide HDF5 plugin (with HDF5 1.8.11 or later).  This is useful because it allows
 *every* HDF5-using program on your system to transparently read JPEG-compressed HDF5 files.
 
-As described in the [HDF5 plugin documentation](<https://www.hdfgroup.org/HDF5/doc/Advanced/DynamicallyLoadedFilters/HDF5DynamicallyLoadedFilters.pdf>), 
+As described in the [HDF5 plugin documentation](https://portal.hdfgroup.org/display/HDF5/HDF5+Dynamically+Loaded+Filters), 
 you just need to compile the JPEG plugin into a shared library and
 copy it to the plugin directory (which defaults to ``/usr/local/hdf5/lib/plugin`` on non-Windows systems).
 You can also install in any other location and define the environment variable HDF5_PLUGIN_PATH to point to that directory.
