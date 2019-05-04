@@ -138,8 +138,8 @@ corvette:~/devel/jpegHDF5>build/example 1
 Success, JPEG quality=1, percent of differing array elements=96.484375
 ```
 
-Below is the output of h5dump on the output file of the example test program.  
-h5dump was not built with the JPEG decompressor, but is using the dynamic plugin that is built in the project.
+Below is the output of h5dump on the output file of the example test program.
+h5dump was not built with the JPEG decompressor, but is using the dynamic plugin that is built in this package.
 This was done by setting HDF5_PLUGIN_PATH to the ``build`` directory of this project:
 ```
 corvette:~/devel/jpegHDF5>echo $HDF5_PLUGIN_PATH
