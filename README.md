@@ -113,16 +113,16 @@ directory.
 
 Running the Example Program
 ===========================
-The example program generates an HDF5 file with 10 arrays, each 1024x512.  
+The example program generates an HDF5 file with 10 arrays, each 1024x512.
 The values start at 0 in element [0,0] and increase by 1 in each array element.
 Because the array is unsigned 8-bit integer the values wrap back to 0 after they reach 255.
 
-The example program takes a single option argument which is the JPEG quality that defaults to 100.
+The example program takes a single option argument which is the JPEG quality. It defaults to 100.
 The program writes the HDF5 file, closes it, re-opens it, and reads the data back in.
 It prints the percentage of values that do not exactly match the original values, due to the lossy nature
 of the compression.
 
-Here is the output with quality=100, 80, 60, 40, 20, 1
+Here is the output with quality=100, 80, 60, 40, 20, and 1.
 ```
 corvette:~/devel/jpegHDF5>build/example 100
 Success, JPEG quality=100, percent of differing array elements=0.000000
@@ -138,7 +138,7 @@ corvette:~/devel/jpegHDF5>build/example 1
 Success, JPEG quality=1, percent of differing array elements=96.484375
 ```
 
-Here is the output of h5dump on the output files of the example test program.  
+Below is the output of h5dump on the output file of the example test program.  
 h5dump was not built with the JPEG decompressor, but is using the dynamic plugin that is built in the project.
 This was done by setting HDF5_PLUGIN_PATH to the ``build`` directory of this project:
 ```
@@ -146,7 +146,7 @@ corvette:~/devel/jpegHDF5>echo $HDF5_PLUGIN_PATH
 /home/epics/devel/jpegHDF5/build
 ```
 
-This is the output of h5dump when the quality is 100. The compression factor is 10.5.  
+This is the output of h5dump when the quality is 100. The compression factor is 10.5.
 The compression was actually lossless in this case, all array elements are the same before and after compression.
 This is due to the nature of the actual data, and is not generally the case when quality=100.
 ```
@@ -197,7 +197,7 @@ GROUP "/" {
       ...
 ```
 
-This is the output of h5dump when the quality is 60.  The compression factor is 35.1.  
+This is the output of h5dump when the quality is 60.  The compression factor is 35.1.
 There are repeated and skipped values in the output.
 ```
 corvette:~/devel/jpegHDF5>h5dump --properties example.h5 | more
