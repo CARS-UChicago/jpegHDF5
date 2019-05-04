@@ -247,6 +247,22 @@ GROUP "/" {
       ...
 ```
 
+Performance
+===========
+
+The performance of the filter was measured under the following conditions:
+* 1024x1024 8-bit monochromatic images
+* Streaming 2000 images to a single HDF5 file
+* JPEG quality=90
+
+The filter plugin can write 100 frames/s (100 MB/s) under these conditions.
+
+If the JPEG compression is done in an external function using 5 threads, and the precompressed images are
+written to a single HDF5 file using *direct chunk write* then it can do 500 frames/s.  This is limited by the
+speed of the external compression function with 5 threads, not by the speed of the HDF5 file writing.
+
+Both types of files can be read with the plugin provided in this package.
+
 Acknowledgments
 ===============
 The cmake file and this documentation borrow heavily from the [hdf-blosc repository](https://github.com/Blosc/hdf5-blosc).
