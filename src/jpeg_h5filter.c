@@ -43,7 +43,7 @@ size_t jpeg_h5_filter(unsigned int flags, size_t cd_nelmts,
         jpeg_read_header(&jpegInfo, TRUE);
         jpeg_start_decompress(&jpegInfo);
         buf_size_out = elem_size * jpegInfo.output_height * jpegInfo.output_width * jpegInfo.output_components;
-        out_buf = malloc(buf_size_out);
+        out_buf = H5allocate_memory(buf_size_out, false);
         if (out_buf == NULL) {
             PUSH_ERR("jpeg_h5_filter", H5E_CALLBACK, 
                     "Could not allocate output buffer.");
@@ -92,7 +92,7 @@ size_t jpeg_h5_filter(unsigned int flags, size_t cd_nelmts,
         int sizeY;
         int nwrite=0;
         size_t expectedSize;
-        unsigned char *pData=NULL, *buffer=NULL;
+        unsigned char *pData=NULL;
         
         if (cd_nelmts != 4) {
             PUSH_ERR("jpeg_h5_filter", H5E_CALLBACK, "cd_nelmts must be 4");
@@ -151,7 +151,7 @@ size_t jpeg_h5_filter(unsigned int flags, size_t cd_nelmts,
         jpeg_finish_compress(&jpegInfo);
         buf_size_out = outSize;
     
-        out_buf = malloc(buf_size_out);
+        out_buf = H5allocate_memory(buf_size_out, false);
         if (!out_buf) {
             PUSH_ERR("jpeg_h5_filter", H5E_CALLBACK, 
                 "Failed to allocate JPEG array");
@@ -160,8 +160,6 @@ size_t jpeg_h5_filter(unsigned int flags, size_t cd_nelmts,
         memcpy(out_buf, outData, buf_size_out);
 
         H5free_memory(*buf);
-        if (buffer)
-            free(buffer);
         if (outData)
             free(outData);
         *buf = out_buf;
@@ -170,8 +168,6 @@ size_t jpeg_h5_filter(unsigned int flags, size_t cd_nelmts,
     
     compressFailure:
         PUSH_ERR("jpeg_h5_filter", H5E_CALLBACK, "Error compressing array");
-        if (buffer)
-            free(buffer);
         if (outData)
             free(outData);
         if (out_buf)
